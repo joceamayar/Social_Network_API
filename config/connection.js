@@ -1,5 +1,5 @@
 const { connect, connection } = require('mongoose');
 
-connect('mongodb://127.0.0.1:27017/videosAndResponses');//what is it connecting to? 
+connect('mongodb://127.0.0.1:27017/socialNetwork');//name of the database.
 
 module.exports = connection;
