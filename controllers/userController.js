@@ -34,7 +34,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  //Update User - This is not working 
+  //Update User 
   async updateUser(req, res) {
     try {
       const updatedUser = await User.findOneAndUpdate(
@@ -70,6 +70,49 @@ module.exports = {
       );
 
       res.json({ message: 'User successfully deleted!' });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  // create a friend
+
+  async createFriend(req, res) {
+    try {
+      const user = await User.updateOne({ _id: req.params.userId },
+        {
+          $push: {
+            friends: req.params.friendId
+          }
+        });
+
+      res.json(user);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  //delete a friend
+  async removeFried(req, res) {
+    try {
+      const user = await User.updateOne({ _id: req.params.userId },
+        {
+          $pull: {
+            friends: req.params.friendId
+          }
+        });
+
+      if (!user) {
+        return res.status(404).json({ message: 'No user with this id!' });
+      }
+
+      // const thought = await Thought.findOneAndUpdate(
+      //   { user: req.params.userId },
+      //   { $pull: { user: req.params.userId } },
+      //   { new: true }
+      // );
+
+      res.json({ message: 'Friend successfully deleted!' });
     } catch (err) {
       res.status(500).json(err);
     }
