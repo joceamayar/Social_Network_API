@@ -11,7 +11,8 @@ module.exports = {
   },
   async getSingleThought(req, res) {
     try {
-      const Thought = await Thought.findOne({ _id: req.params.thoughtId })
+      
+      const thought = await Thought.findOne({ _id: req.params.thoughtId })
 
       if (!thought) {
         return res.status(404).json({ message: 'No thoughts with that ID' });
@@ -31,12 +32,6 @@ module.exports = {
         { $addToSet: { thoughts: thought._id } },
         { new: true }
       );
-
-      if (!user) {
-        return res.status(404).json({
-          message: 'Thought created, but found no user with that ID',
-        });
-      }
 
       res.json('Created the thought 🎉');
     } catch (err) {
@@ -68,18 +63,6 @@ module.exports = {
 
       if (!thought) {
         return res.status(404).json({ message: 'No thought with this id!' });
-      }
-
-      const user = await User.findOneAndUpdate(
-        { thoughts: req.params.thoughtId },
-        { $pull: { thoughts: req.params.thoughtId } },
-        { new: true }
-      );
-
-      if (!user) {
-        return res
-          .status(404)
-          .json({ message: 'Thought created but no user with this id!' });
       }
 
       res.json({ message: 'Thought successfully deleted!' });

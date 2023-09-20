@@ -1,3 +1,4 @@
+const { Thought } = require('../models');
 const User = require('../models/User');
 
 module.exports = {
@@ -10,7 +11,6 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  //get single user by id
   async getSingleUser(req, res) {
     try {
       const user = await User.findOne({ _id: req.params.userId })
@@ -34,6 +34,48 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+  //Update User - This is not working 
+  async updateUser(req, res) {
+    try {
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: req.params.userId }, //getting data from.body
+        { $set: req.body },
+        { runValidators: true, new: true }
+      );
+
+      if (!updatedUser) {
+        return res.status(404).json({ message: 'No user with this id!' });
+      }
+
+      res.json(updatedUser);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  },
+
+  //delete User
+  async deleteUser(req, res) {
+    try {
+      const user = await User.findOneAndRemove({ _id: req.params.userId });
+
+      if (!user) {
+        return res.status(404).json({ message: 'No user with this id!' });
+      }
+
+      const thought = await Thought.findOneAndUpdate(
+        { user: req.params.userId },
+        { $pull: { user: req.params.userId } },
+        { new: true }
+      );
+
+      res.json({ message: 'User successfully deleted!' });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+
 };
 
 
