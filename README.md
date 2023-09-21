@@ -21,6 +21,10 @@ To install the specified technology for a social network API, you'll need to set
 ## Usage
 This application generates the foundational code for the backend of a social network application. It offers a range of features, including server initialization and database synchronization, as well as data retrieval via API GET routes. The application supports CRUD (Create, Read, Update, Delete) operations for both users and thoughts, in addition to managing reactions and friend lists through API POST and DELETE routes.
 
+
+[socialNetworApi.webm](https://github.com/joceamayar/Social_Network_API/assets/136951180/4a921f22-dc61-4753-bcd2-b9159e7c9227)
+
+
 ## License
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
